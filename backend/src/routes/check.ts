@@ -1,4 +1,5 @@
 import { Router, Request, Response } from "express";
+import { crawlSite } from "../crawler/crawler";
 
 export const checkRouter = Router();
 
@@ -13,36 +14,22 @@ checkRouter.post("/", async (req: Request, res: Response) => {
     return res.status(400).json({ error: "O campo 'url' é obrigatório." });
   }
 
-  const mockResult = {
-    siteUrl: url,
-    pagesChecked: 3,
-    results: [
-      {
-        page: `${url}/`,
-        errors: [
-          {
-            word: "concerteza",
-            suggestion: "com certeza",
-            context: "...vamos entregar isso concerteza amanhã...",
-          },
-        ],
-      },
-      {
-        page: `${url}/sobre`,
-        errors: [],
-      },
-      {
-        page: `${url}/contato`,
-        errors: [
-          {
-            word: "enderesso",
-            suggestion: "endereço",
-            context: "...envie para o nosso enderesso comercial...",
-          },
-        ],
-      },
-    ],
-  };
+  try {
+    const pages = await crawlSite(url, 10);
 
-  res.json(mockResult);
+    const result = {
+      siteUrl: url,
+      pagesChecked: pages.length,
+      results: pages.map((p) => ({
+        page: p.url,
+        textLength: p.text.length,
+        errors: [], 
+      })),
+    };
+
+    res.json(result);
+  } catch (err) {
+    console.error("Erro ao processar o crawling:", err);
+    res.status(500).json({ error: "Falha ao processar o site informado." });
+  }
 });
