@@ -1,10 +1,15 @@
 import { Router, Request, Response } from "express";
 import { crawlSite } from "../crawler/crawler";
+import { checkSpelling } from "../checker/checker";
 
 export const checkRouter = Router();
 
 interface CheckRequestBody {
   url: string;
+}
+
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 checkRouter.post("/", async (req: Request, res: Response) => {
@@ -17,19 +22,16 @@ checkRouter.post("/", async (req: Request, res: Response) => {
   try {
     const pages = await crawlSite(url, 10);
 
-    const result = {
-      siteUrl: url,
-      pagesChecked: pages.length,
-      results: pages.map((p) => ({
-        page: p.url,
-        textLength: p.text.length,
-        errors: [], 
-      })),
-    };
+    const results = [];
+    for (const page of pages) {
+      const errors = await checkSpelling(page.text);
+      results.push({ page: page.url, textLength: page.text.length, errors });
+      await delay(3500); 
+    }
 
-    res.json(result);
+    res.json({ siteUrl: url, pagesChecked: pages.length, results });
   } catch (err) {
-    console.error("Erro ao processar o crawling:", err);
+    console.error("Erro ao processar a verificação:", err);
     res.status(500).json({ error: "Falha ao processar o site informado." });
   }
 });

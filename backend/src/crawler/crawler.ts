@@ -35,7 +35,6 @@ export async function crawlSite(
     const text = await extractCleanText(page);
     results.push({ url: currentUrl, text });
 
-    // Descobre novos links dentro da própria página
     const links = await page.$$eval("a[href]", (anchors) =>
       anchors.map((a) => (a as HTMLAnchorElement).href)
     );
