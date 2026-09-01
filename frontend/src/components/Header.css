@@ -1,0 +1,4 @@
+.header{border-bottom: 2px solid rgba(17, 17, 17, 0.1);}
+.header .content{display: flex; align-items: center; justify-content: space-between; padding: 22px 0;}
+.header .logo .text{color: var(--color-3);}
+.header .links .text{opacity: 0.5;} 

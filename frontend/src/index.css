@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root{
+ --color-1: #111111;
+ --color-2: #fff;
+ --color-3: #65C71F;
+} 
+
+.content-95{padding: 0 40px; margin: 0 auto;}
+
+.text {color: var(--color-1);}
+.text.t1{font: 400 14px / 1.5em "Geist", sans-serif;}
+.text.t2{font: 700 18px / 1.5em "Geist", sans-serif;}
+.text.t3{font: 500 14px / 1.5em "Geist", sans-serif;}
+.text.t4{font: 400 13px / 1.5em "Geist", sans-serif;}
+.text.t5{font: 800 54px / 1em "Geist", sans-serif;}
+.text.t6{font: 500 20px / 1.5em "Geist", sans-serif;}
+.text.t7{font: 700 12px / 1.5em "Geist", sans-serif;}
+.text.t8{font: 700 14px / 1.5em "Geist", sans-serif;}
+.text.t9{font: 600 15px / 1.5em "Geist", sans-serif;}
