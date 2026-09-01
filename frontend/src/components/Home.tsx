@@ -1,0 +1,48 @@
+import './Home.css'
+import { Globe } from "lucide-react";
+
+export default function Home() {
+    return (
+        <section className='home'>
+            <div className="content-95">
+                <div className="content">
+                    <div className="steps">
+                        <div className="text t4 current"><p>01 Enter URL</p></div>
+                        <div className="line"></div>
+                        <div className="text t4"><p>02 Scan website</p></div>
+                        <div className="line"></div>
+                        <div className="text t4"><p>03 Get report</p></div>
+                    </div>
+                    <div className="titulo text t5"><p>OrtoCheck</p></div>
+                    <div className="text t1 description"><p>Enter your domain to automatically crawl all pages, scan content, and generate a precise developer-grade spelling audit in minutes.</p></div>
+                    <div className="input-container">
+                        <Globe size={18} />
+                        <input className="input" type="text" placeholder="https://yourwebsite.com"/>                    
+                        <button className='button'>Analyze</button>
+                    </div>
+                    <div className="text t7 instruction-title"><p>HOW IT WORKS</p></div>
+                    <div className="instructions">
+                        <div className="instruction">
+                            <div className="number text t8"><p>01</p></div>    
+                            <div className="text t9"><p>Enter your URL</p></div>    
+                            <div className="text t4 instruction-description"><p>Paste your website URL. OrtoCheck acts as a standard compliance crawler.</p></div>    
+                        </div>     
+                        <div className="instruction">
+                            <div className="number text t8"><p>02</p></div>    
+                            <div className="text t9"><p>Wait a few minutes</p></div>    
+                            <div className="text t4 instruction-description"><p>Our engine systematically traverses your pages and parses the copy.</p></div>    
+                        </div>     
+                        <div className="instruction">
+                            <div className="number text t8"><p>03</p></div>    
+                            <div className="text t9"><p>Get your report</p></div>    
+                            <div className="text t4 instruction-description"><p>Identify exact pages containing mistakes with targeted typo suggestions.</p></div>    
+                        </div>     
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    )
+}
+
+
