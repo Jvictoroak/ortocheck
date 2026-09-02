@@ -6,9 +6,12 @@ export interface CrawlResult {
   text: string;
 }
 
+export type ProgressCallback = (current: number, total: number, currentUrl: string) => void;
+
 export async function crawlSite(
   startUrl: string,
-  maxPages = 10
+  maxPages = 20,
+  onProgress?: ProgressCallback
 ): Promise<CrawlResult[]> {
   const visited = new Set<string>();
   const toVisit: string[] = [startUrl];
@@ -35,6 +38,8 @@ export async function crawlSite(
     const text = await extractCleanText(page);
     results.push({ url: currentUrl, text });
 
+    onProgress?.(results.length, maxPages, currentUrl);
+
     const links = await page.$$eval("a[href]", (anchors) =>
       anchors.map((a) => (a as HTMLAnchorElement).href)
     );
@@ -49,7 +54,6 @@ export async function crawlSite(
           }
         }
       } catch {
-
       }
     }
   }

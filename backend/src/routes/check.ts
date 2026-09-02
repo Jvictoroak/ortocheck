@@ -4,34 +4,65 @@ import { checkSpelling } from "../checker/checker";
 
 export const checkRouter = Router();
 
-interface CheckRequestBody {
-  url: string;
-}
-
 function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-checkRouter.post("/", async (req: Request, res: Response) => {
-  const { url } = req.body as CheckRequestBody;
+checkRouter.get("/", async (req: Request, res: Response) => {
+  const url = req.query.url as string;
 
   if (!url) {
-    return res.status(400).json({ error: "O campo 'url' é obrigatório." });
+    return res.status(400).json({ error: "O parâmetro 'url' é obrigatório." });
   }
 
+  res.writeHead(200, {
+    "Content-Type": "text/event-stream",
+    "Cache-Control": "no-cache",
+    Connection: "keep-alive",
+  });
+
+  const sendEvent = (event: string, data: unknown) => {
+    res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
+  };
+
   try {
-    const pages = await crawlSite(url, 10);
+    const maxPages = 20;
+
+    const pages = await crawlSite(url, maxPages, (current, total, currentUrl) => {
+      sendEvent("progress", {
+        stage: "crawling",
+        current,
+        total,
+        currentUrl,
+      });
+    });
 
     const results = [];
-    for (const page of pages) {
+    for (let i = 0; i < pages.length; i++) {
+      const page = pages[i];
+
+      sendEvent("progress", {
+        stage: "checking",
+        current: i + 1,
+        total: pages.length,
+        currentUrl: page.url,
+      });
+
       const errors = await checkSpelling(page.text);
       results.push({ page: page.url, textLength: page.text.length, errors });
-      await delay(3500); 
+
+      await delay(3500);
     }
 
-    res.json({ siteUrl: url, pagesChecked: pages.length, results });
+    sendEvent("done", {
+      siteUrl: url,
+      pagesChecked: pages.length,
+      results,
+    });
   } catch (err) {
-    console.error("Erro ao processar a verificação:", err);
-    res.status(500).json({ error: "Falha ao processar o site informado." });
+    console.error("Erro ao processar:", err);
+    sendEvent("error", { message: "Falha ao processar o site informado." });
+  } finally {
+    res.end();
   }
 });

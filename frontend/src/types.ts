@@ -15,3 +15,12 @@ export interface CheckResponse {
   pagesChecked: number;
   results: PageResult[];
 }
+
+export interface ProgressEvent {
+  stage: "crawling" | "checking";
+  current: number;
+  total: number;
+  currentUrl: string;
+}
+
+export type Screen = "home" | "loading" | "report";
