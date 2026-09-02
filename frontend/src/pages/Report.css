@@ -12,9 +12,10 @@
 .report .reanalyze-button{border: none; border-radius: 6px;     padding: 12px 24px; color: var(--color-2);background: var(--color-3);  display: flex; align-items: center; justify-content: center;gap: 4px;}
 .report .reanalyze-button .text{color: var(--color-2);}
 .report .filters{display: flex;  gap: 4px;  }
-.report .filters .filter{opacity: .5; padding: 8px 16px;}
-.report .filters .filter.current{opacity: 1; font-weight: 600; border: 1px solid rgba(17, 17, 17, 0.3); border-radius: 6px;}
-
+.report .filters .filter{opacity: .5; padding: 11px 16px 0; cursor: pointer;border-radius: 6px; border: 1px solid transparent;}
+.report .filters .filter:hover{border: 1px solid rgba(17, 17, 17, 0.3);}
+.report .filters .filter.current{opacity: 1; font-weight: 600; border: 1px solid rgba(17, 17, 17, 0.3); }
+.report .empty-state {text-align: center;padding: 32px 0;opacity: 0.5;}
 .report .analysis {margin: 20px 0 0;}
 .report .analysis .row{ display: flex;padding: 14px 16px; border: 1px solid rgba(17, 17, 17, 0.3); gap: 12px;}
 .report .analysis .analysis-item:first-child{border-top-left-radius: 8px; border-top-right-radius: 8px;}
@@ -26,7 +27,6 @@
 .report .analysis .count {display: flex; gap: 16px; align-items: center;}
 .report .analysis .count .text{opacity: .5;}
 .report .analysis .row.error .count .text{color: #D32F2F; opacity: 1;}
-
 
 .report .row.clickable {cursor: pointer;}
 .report .row.clickable:hover {background: rgba(17, 17, 17, 0.02);}
