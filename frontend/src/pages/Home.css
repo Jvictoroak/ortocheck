@@ -6,7 +6,10 @@
 .home .steps .line{width: 16px; height: 1px; background: rgba(17, 17, 17, 0.2);}
 .home .titulo {margin: 44px 0 0; text-align: center;}
 .home .description { text-align: center; opacity: 0.5; }
-.home .input-container {margin: 64px 0; width: 100%; border: 1px solid rgba(17, 17, 17, 0.3); padding: 7px; display: flex; border-radius: 8px; align-items: center; gap: 4px;}
+.home .inputs {margin: 64px 0; display: flex; gap: 7px; }
+.home .language-select {border: 1px solid rgba(17, 17, 17, 0.3); border-radius: 8px; color: rgba(17, 17, 17, 0.6);}
+
+.home .input-container {width: 100%; border: 1px solid rgba(17, 17, 17, 0.3); padding: 7px; display: flex; border-radius: 8px; align-items: center; gap: 4px;}
 .home .input-container svg {opacity: 0.5;}
 .home .input-container .input {flex: 1; border: none; outline: none;}
 .home .input-container .input {border: none; outline: none;}

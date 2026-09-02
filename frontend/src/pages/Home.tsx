@@ -1,19 +1,22 @@
-import './Home.css'
-import { Globe } from "lucide-react";
 import { useState } from "react";
+import "./Home.css";
+import { Globe } from "lucide-react";
+import { SUPPORTED_LANGUAGES } from "../types";
+import LanguageSelect from "../components/LanguageSelect";
 
 interface HomeProps {
-  onAnalyze: (url: string) => void;
+  onAnalyze: (url: string, language: string) => void;
   error?: string | null;
 }
 
 export default function Home({ onAnalyze, error }: HomeProps) {
   const [inputUrl, setInputUrl] = useState("");
-
-  function handleSubmit() {
+  const [language, setLanguage] = useState("en-US");
+    function handleSubmit() {
     if (!inputUrl.trim()) return;
-    onAnalyze(inputUrl.trim());
-  }
+
+    onAnalyze(inputUrl.trim(), language);
+    }
 
     return (
         <section className='home'>
@@ -28,10 +31,16 @@ export default function Home({ onAnalyze, error }: HomeProps) {
                     </div>
                     <div className="titulo text t5"><p>OrtoCheck</p></div>
                     <div className="text t1 description"><p>Enter your domain to automatically crawl all pages, scan content, and generate a precise developer-grade spelling audit in minutes.</p></div>
-                    <div className="input-container">
-                        <Globe size={18} />
-                        <input className="input" type="text" placeholder="https://yourwebsite.com" value={inputUrl} onChange={(e) => setInputUrl(e.target.value)} onKeyDown={(e) => e.key === "Enter" && handleSubmit()}/>                    
-                        <button className='button' onClick={handleSubmit}>Analyze</button>
+                    <div className="inputs">
+                        <LanguageSelect
+                                value={language}
+                                onChange={setLanguage}
+                            />
+                        <div className="input-container">
+                            <Globe size={18} />
+                            <input className="input" type="text" placeholder="https://yourwebsite.com" value={inputUrl} onChange={(e) => setInputUrl(e.target.value)} onKeyDown={(e) => e.key === "Enter" && handleSubmit()}/>                    
+                            <button className='button' onClick={handleSubmit}>Analyze</button>
+                        </div>
                     </div>
                     {error && <p className="error-message">{error}</p>}
                     <div className="text t7 instruction-title"><p>HOW IT WORKS</p></div>

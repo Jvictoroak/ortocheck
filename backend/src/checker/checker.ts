@@ -7,12 +7,15 @@ export interface SpellError {
 const LANGUAGETOOL_URL =
   process.env.LANGUAGETOOL_URL || "https://api.languagetool.org/v2/check";
 
-export async function checkSpelling(text: string): Promise<SpellError[]> {
+export async function checkSpelling(
+  text: string,
+  language: string = "pt-BR"
+): Promise<SpellError[]> {
   if (!text || text.trim().length === 0) return [];
 
   const params = new URLSearchParams({
     text: text.slice(0, 19000),
-    language: "pt-BR",
+    language,
   });
 
   const response = await fetch(LANGUAGETOOL_URL, {
@@ -26,9 +29,6 @@ export async function checkSpelling(text: string): Promise<SpellError[]> {
   }
 
   const data = await response.json();
-
-    console.log("Resposta bruta do LanguageTool:", JSON.stringify(data, null, 2));
-
 
   return data.matches.map((match: any) => {
     const errorText = match.context.text.substring(

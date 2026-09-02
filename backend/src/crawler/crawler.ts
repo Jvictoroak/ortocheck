@@ -10,7 +10,7 @@ export type ProgressCallback = (current: number, total: number, currentUrl: stri
 
 export async function crawlSite(
   startUrl: string,
-  maxPages = 20,
+  maxPages = 2,
   onProgress?: ProgressCallback
 ): Promise<CrawlResult[]> {
   const visited = new Set<string>();

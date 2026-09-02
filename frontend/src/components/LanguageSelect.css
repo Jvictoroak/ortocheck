@@ -1,0 +1,11 @@
+.language-select-wrapper {position: relative;}
+
+.language-select {display: flex;align-items: center;justify-content: center;gap: 6px;width: 52px;height: 100%;background: transparent;border: 1px solid rgba(17, 17, 17, 0.3);border-radius: 8px;cursor: pointer;}
+
+.language-flag {width: 22px;height: 15px;object-fit: cover;border-radius: 2px;}
+.language-select svg {transition: transform 0.2s ease;}
+.language-select .chevron-open {transform: rotate(180deg);}
+.language-dropdown {position: absolute;top: calc(100% + 6px);left: 0;min-width: 190px;padding: 5px;background: white;border: 1px solid rgba(17, 17, 17, 0.15);border-radius: 8px;box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);z-index: 100;}
+.language-option {display: flex;align-items: center;gap: 10px;width: 100%;padding: 9px 8px;background: transparent;border: none;border-radius: 6px;cursor: pointer;text-align: left;font-size: 14px;}
+.language-option:hover {background: rgba(17, 17, 17, 0.06);}
+.language-option.selected {background: rgba(17, 17, 17, 0.08);}

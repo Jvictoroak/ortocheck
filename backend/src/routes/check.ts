@@ -10,6 +10,8 @@ function delay(ms: number) {
 
 checkRouter.get("/", async (req: Request, res: Response) => {
   const url = req.query.url as string;
+  const language = (req.query.language as string) || "en-US";
+  const maxPages = parseInt(req.query.maxPages as string) || 2;
 
   if (!url) {
     return res.status(400).json({ error: "O parâmetro 'url' é obrigatório." });
@@ -26,15 +28,8 @@ checkRouter.get("/", async (req: Request, res: Response) => {
   };
 
   try {
-    const maxPages = 20;
-
     const pages = await crawlSite(url, maxPages, (current, total, currentUrl) => {
-      sendEvent("progress", {
-        stage: "crawling",
-        current,
-        total,
-        currentUrl,
-      });
+      sendEvent("progress", { stage: "crawling", current, total, currentUrl });
     });
 
     const results = [];
@@ -48,17 +43,13 @@ checkRouter.get("/", async (req: Request, res: Response) => {
         currentUrl: page.url,
       });
 
-      const errors = await checkSpelling(page.text);
+      const errors = await checkSpelling(page.text, language);
       results.push({ page: page.url, textLength: page.text.length, errors });
 
       await delay(3500);
     }
 
-    sendEvent("done", {
-      siteUrl: url,
-      pagesChecked: pages.length,
-      results,
-    });
+    sendEvent("done", { siteUrl: url, pagesChecked: pages.length, results });
   } catch (err) {
     console.error("Erro ao processar:", err);
     sendEvent("error", { message: "Falha ao processar o site informado." });

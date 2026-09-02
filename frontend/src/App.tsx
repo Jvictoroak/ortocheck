@@ -1,8 +1,8 @@
 import { useState } from "react";
 import  "./reset.css";
-import Home from "./components/Home";
-import Loading from "./components/Loading";
-import Report from "./components/Report";
+import Home from "./pages/Home";
+import Loading from "./pages/Loading";
+import Report from "./pages/Report";
 import type { CheckResponse, ProgressEvent, Screen } from "./types";
 import Header from "./components/Header";
 
@@ -15,7 +15,7 @@ function App() {
   const [result, setResult] = useState<CheckResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  function handleAnalyze(inputUrl: string) {
+  function handleAnalyze(inputUrl: string, language: string) {
     setUrl(inputUrl);
     setError(null);
     setResult(null);
@@ -23,7 +23,7 @@ function App() {
     setScreen("loading");
 
     const eventSource = new EventSource(
-      `${API_URL}?url=${encodeURIComponent(inputUrl)}`
+      `${API_URL}?url=${encodeURIComponent(inputUrl)}&language=${encodeURIComponent(language)}`
     );
 
     eventSource.addEventListener("progress", (e) => {
