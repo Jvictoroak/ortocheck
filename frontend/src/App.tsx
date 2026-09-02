@@ -4,6 +4,7 @@ import Home from "./components/Home";
 import Loading from "./components/Loading";
 import Report from "./components/Report";
 import type { CheckResponse, ProgressEvent, Screen } from "./types";
+import Header from "./components/Header";
 
 const API_URL = "http://localhost:3001/check";
 
@@ -43,16 +44,24 @@ function App() {
       eventSource.close();
     });
   }
+  
+  return (
+    <>
+      <Header />
 
-  if (screen === "loading") {
-    return <Loading url={url} progress={progress} />;
-  }
+      {screen === "loading" && (
+        <Loading url={url} progress={progress} />
+      )}
 
-  if (screen === "report" && result) {
-    return <Report result={result} />;
-  }
+      {screen === "report" && result && (
+        <Report result={result} />
+      )}
 
-  return <Home onAnalyze={handleAnalyze} error={error} />;
+      {screen === "home" && (
+        <Home onAnalyze={handleAnalyze} error={error} />
+      )}
+    </>
+  );
 }
 
 export default App;

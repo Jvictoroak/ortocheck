@@ -17,7 +17,7 @@ export default function Loading({ url, progress }: LoadingProps) {
             <div className="content-95">
                 <div className="content">
                     <div className="steps">
-                        <div className="text t4"><p>01 Enter URL</p></div>
+                        <div className="text t4 current"><p>01 Enter URL</p></div>
                         <div className="line"></div>
                         <div className="text t4 current"><p>02 Scan website</p></div>
                         <div className="line"></div>
