@@ -39,7 +39,7 @@ export default function Home({ onAnalyze, error }: HomeProps) {
                         <div className="input-container">
                             <Globe size={18} />
                             <input className="input" type="text" placeholder="https://yourwebsite.com" value={inputUrl} onChange={(e) => setInputUrl(e.target.value)} onKeyDown={(e) => e.key === "Enter" && handleSubmit()}/>                    
-                            <button className='button' onClick={handleSubmit}>Analyze</button>
+                            <button className='button text t4' onClick={handleSubmit}>ANALYZE</button>
                         </div>
                     </div>
                     {error && <p className="error-message">{error}</p>}

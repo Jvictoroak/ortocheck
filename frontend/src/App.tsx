@@ -11,19 +11,21 @@ const API_URL = "http://localhost:3001/check";
 function App() {
   const [screen, setScreen] = useState<Screen>("home");
   const [url, setUrl] = useState("");
+  const [language, setLanguage] = useState("pt-BR");
   const [progress, setProgress] = useState<ProgressEvent | null>(null);
   const [result, setResult] = useState<CheckResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  function handleAnalyze(inputUrl: string, language: string) {
-    setUrl(inputUrl);
+  function runAnalysis(targetUrl: string, targetLanguage: string) {
+    setUrl(targetUrl);
+    setLanguage(targetLanguage);
     setError(null);
     setResult(null);
     setProgress(null);
     setScreen("loading");
 
     const eventSource = new EventSource(
-      `${API_URL}?url=${encodeURIComponent(inputUrl)}&language=${encodeURIComponent(language)}`
+      `${API_URL}?url=${encodeURIComponent(targetUrl)}&language=${encodeURIComponent(targetLanguage)}`
     );
 
     eventSource.addEventListener("progress", (e) => {
@@ -44,7 +46,15 @@ function App() {
       eventSource.close();
     });
   }
-  
+
+  function handleAnalyze(inputUrl: string, inputLanguage: string) {
+    runAnalysis(inputUrl, inputLanguage);
+  }
+
+  function handleReanalyze() {
+    runAnalysis(url, language);
+  }
+
   return (
     <>
       <Header />
@@ -54,7 +64,7 @@ function App() {
       )}
 
       {screen === "report" && result && (
-        <Report result={result} />
+        <Report result={result} onReanalyze={handleReanalyze} />
       )}
 
       {screen === "home" && (

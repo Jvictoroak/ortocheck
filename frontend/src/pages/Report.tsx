@@ -1,13 +1,14 @@
 import { useState } from "react";
 import "./Report.css";
-import { ChevronRight, ChevronDown, ArrowRight } from "lucide-react";
+import { ChevronRight, ChevronDown, ArrowRight  } from "lucide-react";
 import type { CheckResponse } from "../types";
 
 interface ReportProps {
   result: CheckResponse;
+  onReanalyze: () => void;
 }
 
-export default function Report({ result }: ReportProps) {
+export default function Report({ result, onReanalyze }: ReportProps) {
 const [expandedPages, setExpandedPages] = useState<string[]>([]);
 
   const pagesWithErrors = result.results.filter((p) => p.errors.length > 0);
@@ -33,7 +34,7 @@ function toggleExpanded(pageUrl: string) {
             <div className="line"></div>
             <div className="text t4 current"><p>03 Get report</p></div>
           </div>
-
+          
           <div className="titulo text t10"><p>Spelling Report</p></div>
           <div className="text t1 page-time"><p>{result.pagesChecked} pages analyzed</p></div>
 
@@ -51,11 +52,13 @@ function toggleExpanded(pageUrl: string) {
               <div className="number text t13"><p>{totalErrors}</p></div>
             </div>
           </div>
-
-          <div className="filters">
-            <div className="filter text t14 current"><p>All Pages</p></div>
-            <div className="filter text t14"><p>With Errors</p></div>
-            <div className="filter text t14"><p>No Errors</p></div>
+          <div className="buttons">
+            <div className="filters">
+              <div className="filter text t14 current"><p>All Pages</p></div>
+              <div className="filter text t14"><p>With Errors</p></div>
+              <div className="filter text t14"><p>No Errors</p></div>
+            </div>
+              <button className="reanalyze-button text t4" onClick={onReanalyze}>REANALYZE</button>
           </div>
 
           <div className="analysis">
