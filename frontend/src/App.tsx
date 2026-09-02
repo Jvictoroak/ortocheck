@@ -55,6 +55,13 @@ function App() {
     runAnalysis(url, language);
   }
 
+  function handleGoHome() {
+    setScreen("home");
+    setResult(null);
+    setProgress(null);
+    setError(null);
+  }
+
   return (
     <>
       <Header />
@@ -64,7 +71,7 @@ function App() {
       )}
 
       {screen === "report" && result && (
-        <Report result={result} onReanalyze={handleReanalyze} />
+        <Report result={result} onReanalyze={handleReanalyze} onGoHome={handleGoHome} />
       )}
 
       {screen === "home" && (

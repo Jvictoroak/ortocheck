@@ -6,11 +6,12 @@ import type { CheckResponse } from "../types";
 interface ReportProps {
   result: CheckResponse;
   onReanalyze: () => void;
+  onGoHome: () => void;
 }
 
 type FilterType = "all" | "errors" | "clean";
 
-export default function Report({ result, onReanalyze }: ReportProps) {
+export default function Report({ result, onReanalyze, onGoHome}: ReportProps) {
   const [expandedPages, setExpandedPages] = useState<string[]>([]);
   const [filter, setFilter] = useState<FilterType>("all");
 
@@ -83,7 +84,7 @@ export default function Report({ result, onReanalyze }: ReportProps) {
                 <p>No Errors</p>
               </div>
             </div>
-            <button className="reanalyze-button text t4" onClick={onReanalyze}>
+            <button className="reanalyze-button button text t4" onClick={onReanalyze}>
               REANALYZE
             </button>
           </div>
@@ -140,6 +141,9 @@ export default function Report({ result, onReanalyze }: ReportProps) {
               })
             )}
           </div>
+          <button className="back-button button text t4" onClick={onGoHome}>
+            <span>BACK TO SEARCH</span>
+          </button>
         </div>
       </div>
     </section>
