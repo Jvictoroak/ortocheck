@@ -65,7 +65,7 @@ export default function Home({ onAnalyze, error }: HomeProps) {
                             disabled={isSubmitting}
                         />
                         <button
-                            className="button text t4"
+                            className="button"
                             onClick={handleSubmit}
                             disabled={isSubmitting}
                         >

@@ -1,4 +1,5 @@
 .header{border-bottom: 2px solid rgba(17, 17, 17, 0.1);}
 .header .content{display: flex; align-items: center; justify-content: space-between; padding: 22px 0;}
-.header .logo .text{color: var(--color-3);}
+.header .logo {display: flex; gap: 4px; align-items: center;}
+.header .logo .icone{width: 18px; height: 18px; aspect-ratio: 1 / 1;}
 .header .links .text{opacity: 0.5;} 

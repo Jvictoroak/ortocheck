@@ -84,7 +84,7 @@ export default function Report({ result, onReanalyze, onGoHome}: ReportProps) {
                 <p>No Errors</p>
               </div>
             </div>
-            <button className="reanalyze-button button text t4" onClick={onReanalyze}>
+            <button className="reanalyze-button button" onClick={onReanalyze}>
               REANALYZE
             </button>
           </div>
@@ -141,7 +141,7 @@ export default function Report({ result, onReanalyze, onGoHome}: ReportProps) {
               })
             )}
           </div>
-          <button className="back-button button text t4" onClick={onGoHome}>
+          <button className="back-button button" onClick={onGoHome}>
             <span>BACK TO SEARCH</span>
           </button>
         </div>

@@ -4,11 +4,14 @@
  --color-1: #111111;
  --color-2: #fff;
  --color-3: #63b12c;
+ --color-3-hover: #4f8e23;
 } 
 
 
 body{position: relative; min-height: 100vh;}
 .content-95{padding: 0 40px; margin: 0 auto;}
+.button{background: var(--color-3); color: var(--color-2) ; border: none; padding: 12px 24px; border-radius: 6px; font: 400 13px / 1.5em "Geist", sans-serif; transition: .3s; cursor: pointer;}
+.button:hover{background: var(--color-3-hover);}
 
 .text {color: var(--color-1);}
 .text.t1{font: 400 14px / 1.5em "Geist", sans-serif;}
