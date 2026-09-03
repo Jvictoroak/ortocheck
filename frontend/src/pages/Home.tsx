@@ -1,22 +1,37 @@
 import { useState } from "react";
 import "./Home.css";
 import { Globe } from "lucide-react";
-import { SUPPORTED_LANGUAGES } from "../types";
 import LanguageSelect from "../components/LanguageSelect";
+import { isValidUrl } from "../utils/validation";
 
 interface HomeProps {
-  onAnalyze: (url: string, language: string) => void;
-  error?: string | null;
+onAnalyze: (url: string, language: string) => void;
+error?: string | null;
 }
 
 export default function Home({ onAnalyze, error }: HomeProps) {
-  const [inputUrl, setInputUrl] = useState("");
-  const [language, setLanguage] = useState("en-US");
-    function handleSubmit() {
-    if (!inputUrl.trim()) return;
+    const [inputUrl, setInputUrl] = useState("");
+    const [language, setLanguage] = useState("en-US");
+    const [validationError, setValidationError] = useState<string | null>(null);
 
-    onAnalyze(inputUrl.trim(), language);
+    function handleSubmit() {
+        const trimmedUrl = inputUrl.trim();
+
+        if (!trimmedUrl) {
+            setValidationError("Please enter a URL.");
+            return;
+        } 
+
+        if (!isValidUrl(trimmedUrl)) {
+            setValidationError("Invalid URL. Make sure to include 'https://' at the beginning.");
+            return;
+        }
+
+        setValidationError(null);
+        onAnalyze(trimmedUrl, language);
     }
+
+    const displayError = validationError || error;
 
     return (
         <section className='home'>
@@ -32,17 +47,26 @@ export default function Home({ onAnalyze, error }: HomeProps) {
                     <div className="titulo text t5"><p>OrtoCheck</p></div>
                     <div className="text t1 description"><p>Enter your domain to automatically crawl all pages, scan content, and generate a precise developer-grade spelling audit in minutes.</p></div>
                     <div className="inputs">
-                        <LanguageSelect
-                                value={language}
-                                onChange={setLanguage}
-                            />
-                        <div className="input-container">
-                            <Globe size={18} />
-                            <input className="input" type="text" placeholder="https://yourwebsite.com" value={inputUrl} onChange={(e) => setInputUrl(e.target.value)} onKeyDown={(e) => e.key === "Enter" && handleSubmit()}/>                    
-                            <button className='button text t4' onClick={handleSubmit}>ANALYZE</button>
-                        </div>
-                    </div>
-                    {error && <p className="error-message">{error}</p>}
+            <LanguageSelect value={language} onChange={setLanguage} />
+            <div className="input-container">
+              <Globe size={18} />
+              <input
+                className="input"
+                type="text"
+                placeholder="https://yourwebsite.com"
+                value={inputUrl}
+                onChange={(e) => setInputUrl(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+                id="url"
+              />
+              <button className="button text t4" onClick={handleSubmit}>
+                ANALYZE
+              </button>
+            </div>
+          </div>
+
+          {displayError && <p className="text t14 error-message">{displayError}</p>}
+
                     <div className="text t7 instruction-title"><p>HOW IT WORKS</p></div>
                     <div className="instructions">
                         <div className="instruction">
@@ -64,7 +88,6 @@ export default function Home({ onAnalyze, error }: HomeProps) {
                 </div>
             </div>
         </section>
-        
     )
 }
 

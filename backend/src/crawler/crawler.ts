@@ -8,6 +8,13 @@ export interface CrawlResult {
 
 export type ProgressCallback = (current: number, total: number, currentUrl: string) => void;
 
+export class SiteUnreachableError extends Error {
+  constructor(url: string) {
+    super(`Unable to access ${url}. Check if the site is unavailable and if the URL is correct.`);
+    this.name = "SiteUnreachableError";
+  }
+}
+
 export async function crawlSite(
   startUrl: string,
   maxPages = 2,
@@ -21,6 +28,8 @@ export async function crawlSite(
   const browser: Browser = await chromium.launch();
   const page: Page = await browser.newPage();
 
+  let isFirstPage = true;
+
   while (toVisit.length > 0 && results.length < maxPages) {
     const currentUrl = toVisit.shift()!;
     const normalizedUrl = normalizeUrl(currentUrl);
@@ -32,7 +41,14 @@ export async function crawlSite(
       await page.goto(currentUrl, { waitUntil: "networkidle", timeout: 15000 });
     } catch (err) {
       console.warn(`Falha ao acessar ${currentUrl}:`, (err as Error).message);
+
+      if (isFirstPage) {
+        await browser.close();
+        throw new SiteUnreachableError(currentUrl);
+      }
       continue;
+    } finally {
+      isFirstPage = false;
     }
 
     const text = await extractCleanText(page);

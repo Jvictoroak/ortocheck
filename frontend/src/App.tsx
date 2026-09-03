@@ -8,6 +8,8 @@ import Header from "./components/Header";
 
 const API_URL = "http://localhost:3001/check";
 
+
+
 function App() {
   const [screen, setScreen] = useState<Screen>("home");
   const [url, setUrl] = useState("");
@@ -40,10 +42,20 @@ function App() {
       eventSource.close();
     });
 
-    eventSource.addEventListener("error", () => {
-      setError("Falha ao verificar o site.");
-      setScreen("home");
+    eventSource.addEventListener("error", (e: MessageEvent) => {
       eventSource.close();
+      setScreen("home");
+
+      if (e.data) {
+        try {
+          const data = JSON.parse(e.data);
+          setError(data.message);
+        } catch {
+          setError("Failed to verify the site.");
+        }
+      } else {
+        setError("Unable to connect to the server. Please try again.");
+      }
     });
   }
 
