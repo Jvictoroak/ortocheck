@@ -13,21 +13,26 @@ export default function Home({ onAnalyze, error }: HomeProps) {
     const [inputUrl, setInputUrl] = useState("");
     const [language, setLanguage] = useState("en-US");
     const [validationError, setValidationError] = useState<string | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
 
     function handleSubmit() {
+        if (isSubmitting) return; 
+
         const trimmedUrl = inputUrl.trim();
 
         if (!trimmedUrl) {
-            setValidationError("Please enter a URL.");
-            return;
-        } 
+        setValidationError("Please enter a URL.");
+        return;
+        }
 
         if (!isValidUrl(trimmedUrl)) {
-            setValidationError("Invalid URL. Make sure to include 'https://' at the beginning.");
-            return;
+        setValidationError("Invalid URL. Make sure to include 'https://' at the start.");
+        return;
         }
 
         setValidationError(null);
+        setIsSubmitting(true);
         onAnalyze(trimmedUrl, language);
     }
 
@@ -47,25 +52,29 @@ export default function Home({ onAnalyze, error }: HomeProps) {
                     <div className="titulo text t5"><p>OrtoCheck</p></div>
                     <div className="text t1 description"><p>Enter your domain to automatically crawl all pages, scan content, and generate a precise developer-grade spelling audit in minutes.</p></div>
                     <div className="inputs">
-            <LanguageSelect value={language} onChange={setLanguage} />
-            <div className="input-container">
-              <Globe size={18} />
-              <input
-                className="input"
-                type="text"
-                placeholder="https://yourwebsite.com"
-                value={inputUrl}
-                onChange={(e) => setInputUrl(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-                id="url"
-              />
-              <button className="button text t4" onClick={handleSubmit}>
-                ANALYZE
-              </button>
-            </div>
-          </div>
+                        <LanguageSelect value={language} onChange={setLanguage} />
+                        <div className="input-container">
+                        <Globe size={18} />
+                        <input
+                            className="input"
+                            type="text"
+                            placeholder="https://yourwebsite.com"
+                            value={inputUrl}
+                            onChange={(e) => setInputUrl(e.target.value)}
+                            onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+                            disabled={isSubmitting}
+                        />
+                        <button
+                            className="button text t4"
+                            onClick={handleSubmit}
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? "..." : "ANALYZE"}
+                        </button>
+                        </div>
+                    </div>
 
-          {displayError && <p className="text t14 error-message">{displayError}</p>}
+                    {displayError && <p className="text t14 error-message">{displayError}</p>}
 
                     <div className="text t7 instruction-title"><p>HOW IT WORKS</p></div>
                     <div className="instructions">

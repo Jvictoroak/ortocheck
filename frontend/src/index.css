@@ -6,6 +6,8 @@
  --color-3: #63b12c;
 } 
 
+
+body{position: relative; min-height: 100vh;}
 .content-95{padding: 0 40px; margin: 0 auto;}
 
 .text {color: var(--color-1);}

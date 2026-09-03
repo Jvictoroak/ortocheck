@@ -5,6 +5,7 @@ import Loading from "./pages/Loading";
 import Report from "./pages/Report";
 import type { CheckResponse, ProgressEvent, Screen } from "./types";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 const API_URL = "http://localhost:3001/check";
 
@@ -89,6 +90,8 @@ function App() {
       {screen === "home" && (
         <Home onAnalyze={handleAnalyze} error={error} />
       )}
+
+      <Footer />
     </>
   );
 }

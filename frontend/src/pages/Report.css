@@ -1,4 +1,4 @@
-.report .content{padding: 48px 0 0; }
+.report .content{padding: 48px 0 80px; }
 .report .steps{display: flex; gap: 16px; align-items: center; margin: 0 auto; justify-content: center;}
 .report .steps .text{opacity: 0.5;}
 .report .steps .text.current{font-weight: 600; opacity: 1;}
