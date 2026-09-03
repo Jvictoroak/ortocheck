@@ -81,5 +81,10 @@ export async function crawlSite(
 function normalizeUrl(url: string): string {
   const u = new URL(url);
   u.hash = "";
-  return u.toString().replace(/\/$/, "");
+
+  const indexFilePattern = /\/(index|default)\.(html?|php|aspx?)$/i;
+  u.pathname = u.pathname.replace(indexFilePattern, "/");
+  const normalized = u.toString().replace(/\/$/, "");
+
+  return normalized;
 }
